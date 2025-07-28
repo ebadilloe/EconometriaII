@@ -11,3 +11,4 @@ Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
 **Unidades** 
 
 - [Repaso MCO](https://ebadilloe.github.io/EconometriaII/MCO/MCO.html)<br>
+- [Repaso MCG](https://ebadilloe.github.io/EconometriaII/MCG/MCG.html)<br>
