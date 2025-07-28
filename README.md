@@ -3,9 +3,9 @@ En este repositorio se encuentra el material del curso de Econometría II (Unaul
 
 Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
 
-- [Syllabus](https://ebadilloe.github.io/EconometriaI/SYLLABUS.xlsx)<br>
-- [Concertación de evaluación](https://ebadilloe.github.io/EconometriaI/Concertacionevaluacion.docx)<br>
-- [Horario atención a estudiantes](https://ebadilloe.github.io/EconometriaI/Horarioatencion.docx)<br>
+- [Syllabus](https://ebadilloe.github.io/EconometriaII/SYLLABUS.xlsx)<br>
+- [Concertación de evaluación](https://ebadilloe.github.io/EconometriaII/Concertacionevaluacion.docx)<br>
+- [Horario atención a estudiantes](https://ebadilloe.github.io/EconometriaII/Horarioatencion.docx)<br>
 <br>
 
 **Unidades** 
