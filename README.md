@@ -7,7 +7,7 @@ Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
 - [Concertación de evaluación](https://ebadilloe.github.io/EconometriaI/Concertacionevaluacion.docx)<br>
 - [Horario atención a estudiantes](https://ebadilloe.github.io/EconometriaI/Horarioatencion.docx)<br>
 
-
-**Unidades** <br>
+<br>
+**Unidades** 
 
 - [Repaso MCO](https://ebadilloe.github.io/EconometriaII/MCO/MCO.html)<br>
