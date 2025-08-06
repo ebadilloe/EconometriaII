@@ -1,14 +1,22 @@
 # Autocorrelación
 # En este ejemplo vamos analizar la relación entre salarios y productividad
-# en el sector de negocios de Estados Unidos entre 1960 y 2005
+# en el sector de negocios de Estados Unidos entre 1960 y 2005 
+# (46 años)
 
-# Se tienen datos sobre ?ndices de remuneración real por hora (Y) y producción por hora (X), la
+# Se tienen datos sobre indices de remuneración real por hora (Y) y producción por hora (X), la
 # base de los índices es 1992=100
+
+# install.packages("remotes")
+# remotes::install_github("brunoruas2/gujarati")
+# install.packages("gujarati")
 
 library(gujarati); library(tidyverse)
 library(Hmisc); library(forecast); library(lmtest)
 library(prais); library(orcutt); library(sandwich)
+# orcutt
+# remotes::install_url("https://cran.r-project.org/src/contrib/Archive/orcutt/orcutt_2.3.tar.gz")
 
+#Salarios (Y), productividad (X)
 data("Table12_4")
 data <- Table12_4 |> 
   mutate(year = as.numeric(as.character(Year)),
@@ -48,22 +56,24 @@ ggplot(data, aes(x=u_lag1, y=u)) +
   geom_smooth(method = "lm", se = FALSE, formula= y~x, color="red")
 
 # Test de Durbin-Watson
-dwtest(modelo1)
+dwtest(modelo)
 
 # La prueba de multiplicadores de Lagrange (ML) o de Breusch-Godfrey (BF)
 # Se empezará incluyendo 4 rezagos de u
 
 data <- data |> mutate(u_lag2 = lag(u, 2, order_by=year),
-                       u_lag3 = lag(u, 3, order_by=year),
-                       u_lag4 = lag(u, 4, order_by=year)) |> 
+                u_lag3 = lag(u, 3, order_by=year),
+                u_lag4 = lag(u, 4, order_by=year)) |> 
                 mutate(u_lag1 = case_when(row_number() == 1 ~ 0,
-                                          TRUE ~ u_lag1),
+                        TRUE ~ u_lag1),
                        u_lag2 = case_when(row_number() >= 1 & row_number() <=2 ~ 0,
-                                          TRUE ~ u_lag2),
+                        TRUE ~ u_lag2),
                        u_lag3 = case_when(row_number() >= 1 & row_number() <=3 ~ 0,
-                                          TRUE ~ u_lag3),
+                        TRUE ~ u_lag3),
                        u_lag4 = case_when(row_number() >= 1 & row_number() <=4 ~ 0,
-                                          TRUE ~ u_lag4)) # En el test BF es necesario ponerle 0 a los missing generados en los rezagos
+                        TRUE ~ u_lag4)) 
+        # En el test BF es necesario ponerle 0 
+        # a los missing generados en los rezagos
 summary(lm(u ~ log(x) + u_lag1 + u_lag2 + u_lag3 + u_lag4, data = data))
 summary(lm(u ~ log(x) + u_lag1 + u_lag2 + u_lag3, data = data))
 summary(lm(u ~ log(x) + u_lag1 + u_lag2, data = data))
@@ -77,25 +87,23 @@ pvalor_1 <- 1-pchisq(chi2cal_1, 1)
 pvalor_1
 
 # Por función
-bg1 <- bgtest(modelo1, order = 1)
+bg1 <- bgtest(modelo, order = 1)
 bg1
 coeftest(bg1)
 
 # Test basados en el correlograma
-acf(data$u, 20)
-acf(data$u, 20, xlim=c(1,20), main = "", ylab = "", xlab = "", xaxt="none")
-axis(1, 1:20)
-mtext(side=1, line=3, "Lag",cex=1.1)
-mtext(side=2, line=3, "Autocorrelation (AC)",cex=1.1)
-
+# acf(data$u, 20)
+# acf(data$u, 20, xlim=c(1,20), main = "", ylab = "", xlab = "", xaxt="none")
+# axis(1, 1:20)
+# mtext(side=1, line=3, "Lag",cex=1.1)
+# mtext(side=2, line=3, "Autocorrelation (AC)",cex=1.1)
 ggAcf(data$u,main="ACF de los residuales")
 
-pacf <- pacf(data$u, 20)
-pacf(data$u, 20, main = "", ylab = "", xlab = "", xaxt="none")
-axis(1, 1:20)
-mtext(side=1, line=3, "Lag",cex=1.1)
-mtext(side=2, line=3, "Partial autocorrelation (PAC)",cex=1.1)
-
+# pacf <- pacf(data$u, 20)
+# pacf(data$u, 20, main = "", ylab = "", xlab = "", xaxt="none")
+# axis(1, 1:20)
+# mtext(side=1, line=3, "Lag",cex=1.1)
+# mtext(side=2, line=3, "Partial autocorrelation (PAC)",cex=1.1)
 ggPacf(data$u,main="PAC de los residuales", ylab="PAC")
 
 # Se detecta un problema de autocorrelación en los residuales y es del tipo AR(1)
@@ -105,7 +113,7 @@ Box.test(data$u, lag = 1, type = "Ljung-Box")
 
 # Corrección
 # El método de Prais-Winsten: corrige AR(1)
-pw <- prais_winsten(log(y)~log(x), data = data, index = data$year)
+pw <- prais_winsten(log(y)~log(x), data = data, index = "year")
 summary(pw)
 
 # El método Cochrane-Orcutt: corrige AR(1)
@@ -114,3 +122,11 @@ summary(coch)
 
 # El método Newey-West: corrige con orden de rezago más alto
 coeftest(modelo,vcov=NeweyWest(modelo,lag=2,verbose=T))
+
+
+# Cochrane-Orcutt y Prais-Winsten ajustan la estimación de los coeficientes 
+# asumiendo un modelo específico de autocorrelación (AR(1))
+
+# Newey-West no cambia los coeficientes, pero da errores estándar corregidos, 
+# sin asumir un modelo particular de autocorrelación
+
