@@ -99,23 +99,6 @@ name: naturaleza
 ---
 # &lt;span style="font-size:80%"&gt;Naturaleza del problema&lt;/span&gt;
 
-- &lt;font color = "blue"&gt;Autocorrelación&lt;/font&gt;: correlación entre miembros de series de observaciones ordenadas en el tiempo (datos de series de tiempo) o en el espacio (datos de corte transversal)
-
-- En el contexto de regresión, el modelo clásico de regresión lineal supone que:
-
-`$$Cov(u_{i},u_{j} | x_{i},x_{j})=E(u_{i}u_{j})=0 \text{ con } i\neq j$$`
-- Pero en el contexto de series de tiempo principalmente es un supuesto que pueda no se mantenga lo que implica que `\(E(u_{i}u_{j})\neq 0\)`
-
----
-# &lt;span style="font-size:80%"&gt;Naturaleza del problema&lt;/span&gt;
-
-Visualicemos algunos patrones de autocorrelación y de no autocorrelación
-
-&lt;img src="f1.png" width="38%" style="display: block; margin: auto;" /&gt;
-
----
-# &lt;span style="font-size:80%"&gt;Naturaleza del problema&lt;/span&gt;
-
 ¿Por qué ocurre la correlación serial?
 - &lt;font color = "blue"&gt;Inercia&lt;/font&gt; &lt;br&gt;
 Las series de tiempo económicas se caracterizan por tener inercia o pasividad `\(\Longrightarrow\)` las observaciones sucesivas sean interdependientes
@@ -135,6 +118,24 @@ Las series de tiempo económicas se caracterizan por tener inercia o pasividad `
 Una serie de tiempo es &lt;font color = "blue"&gt;estacionaria&lt;/font&gt; si sus características (media, varianza y covarianza) son invariantes respecto al tiempo. Si no es así, tenemos una serie de tiempo &lt;font color = "blue"&gt;no estacionaria&lt;/font&gt;. Si en un modelo de regresión `\(Y\)` y las `\(X\)`s son no estacionarias, el término de error será no estacionario y por tanto mostrará autocorrelación 
 
 ---
+# &lt;span style="font-size:80%"&gt;Naturaleza del problema&lt;/span&gt;
+
+- &lt;font color = "blue"&gt;Autocorrelación&lt;/font&gt;: correlación entre miembros de series de observaciones ordenadas en el tiempo (datos de series de tiempo) o en el espacio (datos de corte transversal)
+
+- En el contexto de regresión, el modelo clásico de regresión lineal supone que:
+
+`$$Cov(u_{i},u_{j} | x_{i},x_{j})=E(u_{i}u_{j})=0 \text{ con } i\neq j$$`
+- Pero en el contexto de series de tiempo principalmente es un supuesto que pueda no se mantenga lo que implica que `\(E(u_{i}u_{j})\neq 0\)`
+
+---
+# &lt;span style="font-size:80%"&gt;Naturaleza del problema&lt;/span&gt;
+
+Visualicemos algunos patrones de autocorrelación y de no autocorrelación
+
+&lt;img src="f1.png" width="38%" style="display: block; margin: auto;" /&gt;
+
+---
+
 name: consecuencias
 # &lt;span style="font-size:80%"&gt;Consecuencias de utilizar MCO en presencia de autocorrelación&lt;/span&gt;
 
@@ -230,7 +231,17 @@ El análisis puede extenderse a procesos autorregresivos de orden p, AR(p)
 
 &lt;font color = "blue"&gt;1. Proceso Autorregresivo lineal de primer orden  AR(1)&lt;/font&gt;
 
-En este mundo se ha desarrollado una notación eficiente para los rezagos con el operador `\(L\)`. Por ejemplo, el AR(1) se escribe como:
+En este mundo se ha desarrollado una **notación para los rezagos** con el operador `\(L\)`. Por ejemplo, el AR(1) se escribe como:
+
+
+
+
+
+
+
+
+
+
 
 $$
 `\begin{aligned}
@@ -335,7 +346,7 @@ ggplot(data) +
   scale_y_continuous(name = "u", sec.axis = sec_axis(~.*46, name = "u_e"))
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-2-1.png" width="46%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-6-1.png" width="46%" style="display: block; margin: auto;" /&gt;
 
 Observamos que tanto `\(\widehat{u}_t\)` como `\(\widehat{u}_t\)` estandarizados presentan un patrón, lo que indica que tal vez las `\(\widehat{u}_t\)` no sean aleatorias
 
@@ -353,7 +364,7 @@ ggplot(data, aes(x=u_lag1, y=u)) +
   geom_smooth(method = "lm", se = FALSE, formula= y~x, color="red")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-3-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 Como muestra esta figura, la mayoría de los residuos están agrupados en el segundo y el cuarto cuadrantes, lo cual indica una &lt;font color = "blue"&gt;correlación positiva fuerte en los residuos&lt;/font&gt;
 
@@ -490,7 +501,7 @@ mtext(side=1, line=3, "Lag",cex=1.5)
 mtext(side=2, line=3, "Autocorrelation (AC)",cex=1.5)
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right-50[
@@ -502,7 +513,7 @@ mtext(side=1, line=3, "Lag",cex=1.5)
 mtext(side=2, line=3, "Partial autocorrelation (PAC)",cex=1.5)
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -528,7 +539,7 @@ mtext(side=1, line=3, "Lag",cex=1.5)
 mtext(side=2, line=3, "Autocorrelation (AC)",cex=1.5)
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-13-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right-50[
@@ -540,7 +551,7 @@ mtext(side=1, line=3, "Lag",cex=1.5)
 mtext(side=2, line=3, "Partial autocorrelation (PAC)",cex=1.5)
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
@@ -552,7 +563,7 @@ En la modelación ARMA, el correlograma es fundamental para identificar p y q
 &lt;font color = "blue"&gt;4. La prueba de multiplicadores de Lagrange (LM) o de Breusch-Godfrey (BF)&lt;/font&gt;
 
 Para evitar algunos inconvenientes de la prueba `\(d\)` de Durbin-Watson, se propuso una prueba para la autocorrelación que es general porque permite:
-- regresoras no estocásticas, como los valores rezagadas de la regresada
+- regresoras estocásticas, como los valores rezagadas de la regresada
 - esquemas autorregresivos de orden mayor, como el AR(1), AR(2), etc
 - MA simples o de orden superior
 
@@ -574,7 +585,7 @@ La prueba LM implica los siguientes pasos:
 2. Haga la regresión `\(\widehat{u}_t\)` sobre las `\(X_t\)` y `\(\widehat{u}_{t-1}\)`, `\(\widehat{u}_{t-2}\)`, ... `\(\widehat{u}_{t-p}\)`, y obtenga `\(R^2\)` de esta regresión auxiliar
 3. Si el tamaño de la muestra es grande, Breusch y Godfrey demostraron que
 
-`$$LM=nR^2 \sim \chi_{p}^2$$`
+`$$LM=(n-p)R^2 \sim \chi_{p}^2$$`
 Se rechaza `\(H_0\)` si `\(LM&gt;\chi_{tabla}^2\)` o si pvalue&lt; 1, 5, 10%
 
 ---
@@ -761,7 +772,7 @@ name: r
 
 En este ejemplo vamos analizar la relación entre salarios y productividad en el sector de negocios de Estados Unidos entre 1960 y 2005. Se tienen datos sobre índices de remuneración real por hora (Y) y producción por hora (X), la base de los índices es 1992=100
 
-- [Código en R](https://gusgarciacruz.github.io/EconometriaII/Autocorrelacion/Autocorrelacion.R)
+- [Código en R](https://ebadilloe.github.io/EconometriaII/Autocorrelación/Autocorrelacion.R)
 
 
 ``` r
@@ -782,7 +793,7 @@ ggplot(data, aes(x=x, y=y)) +
   geom_smooth(method = "lm", se = FALSE, formula= y~x, color="red")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-12-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-16-1.png" width="35%" style="display: block; margin: auto;" /&gt;
 
 ---
 # &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: relación entre salarios y productividad&lt;/span&gt;
@@ -829,14 +840,14 @@ ggplot(data, aes(x=year, y=u)) +
   geom_line(color = "blue") + labs(x="Años", y="Residuales")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-18-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ``` r
 ggplot(data, aes(x=year, y=u_e)) +
   geom_line(color = "blue") +  labs(x="Años", y="Residuales estandarizados")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-14-2.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-18-2.png" width="50%" style="display: block; margin: auto;" /&gt;
 Observamos que tanto u como u_e presentan un patrón, lo que indica que tal vez los residuales no sean aleatorios
 ]
 ]
@@ -856,7 +867,7 @@ ggplot(data, aes(x=u_lag1, y=u)) +
   geom_smooth(method = "lm", se = FALSE, formula= y~x, color="red")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -919,7 +930,7 @@ Test basados en el correlograma
 ggAcf(data$u,main="ACF de los residuales")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-22-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right-50[
@@ -928,7 +939,7 @@ ggAcf(data$u,main="ACF de los residuales")
 ggPacf(data$u,main="PAC de los residuales", ylab="PAC")
 ```
 
-&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Autocorrelacion_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
 ]
 
