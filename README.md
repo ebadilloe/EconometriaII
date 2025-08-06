@@ -1,15 +1,12 @@
-# Curso Econometría II, Unaula (Medellín-Colombia)
-En este repositorio se encuentra el material del curso de Econometría II (Unaula).
+# Autocorrelación
+- <span style="font-size:150%">Naturaleza del problema</span> <br>
 
-Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
+- <span style="font-size:150%">Consecuencias de utilizar MCO en presencia de autocorrelación</span> <br>
 
-- [Syllabus](https://ebadilloe.github.io/EconometriaII/SYLLABUS.xlsx)<br>
-- [Concertación de evaluación](https://ebadilloe.github.io/EconometriaII/Concertacionevaluacion.docx)<br>
-- [Horario atención a estudiantes](https://ebadilloe.github.io/EconometriaII/Horarioatencion.docx)<br>
-<br>
+- <span style="font-size:150%">Estructuras de la autocorrelación</span> <br>
 
-**Unidades** 
+- <span style="font-size:150%">Detección de la autocorrelación</span> <br>
 
-- [Repaso MCO](https://ebadilloe.github.io/EconometriaII/MCO/MCO.html)<br>
-- [Repaso MCG](https://ebadilloe.github.io/EconometriaII/MCG/MCG.html)<br>
-- [Autocorrelación](https://ebadilloe.github.io/EconometriaII/Autocorrelación/Autocorrelacion.html)<br>
+- <span style="font-size:150%">Solución a la autocorrelación: el estimador MCG</span> <br>
+
+- <span style="font-size:150%">Ejercicio aplicado en R: relación entre salarios y productividad</span>
