@@ -95,7 +95,7 @@ plot(DF4)
 # Test de Phillips-Perron
 PP1 <- ur.pp(data$lpib, type="Z-tau", model="trend", lags="short")
 summary(PP1)
-plot(PP1)
+#plot(PP1)
 
 # Test de Elliot-Rothenberg-Stock
 ERS <- ur.ers(data$lpib, type = "P-test", model = "trend", lag = 1)
