@@ -49,7 +49,7 @@ ggPacf(data$lpib, main="PAC de LPIB", lag.max = 80)
 # AIC como criterio de información para seleccionar el número de rezagos óptimos
 DF1 <- ur.df(data$lpib, type="trend", selectlags = "AIC")
 summary(DF1)
-#plot(DF1)
+
 
 # Luego, la hipótesis phi3 = (B1, B2, delta) = (B1, 0, 0) es probado con un 
 # test F usual.  Esto es, la tendencia y el valor rezagado de LPIB son restringidas 
@@ -72,7 +72,7 @@ summary(DF1)
 
 DF2 <- ur.df(data$lpib, type="drift", selectlags = "AIC")
 summary(DF2)
-#plot(DF2)
+
 
 # El test estadístico ph1 (H0: B1=delta=0) es 26.4655 mayor a los valores críticos
 # (6.52,  4.63,  3.81), por lo que rechazo H0, es decir que el intercepto es
@@ -84,7 +84,7 @@ summary(DF2)
 # positivo lo cual hace que la serie sea explosiva y no tenga sentido estimar
 DF3 <- ur.df(data$lpib, type="none", selectlags = "AIC")
 summary(DF3)
-#plot(DF3)
+
 
 # Finalmente, se prueba la serie diferenciada para ver si logra la estacionariedad
 data <- data |> 
@@ -92,7 +92,7 @@ data <- data |>
 
 DF4 <- ur.df(data[!is.na(data$dlpib),]$dlpib, type="trend", selectlags = "AIC")
 summary(DF4)
-#plot(DF4)
+
 
 # Una interpretación más completa puede encontrarse en 
 # - https://stats.stackexchange.com/questions/24072/interpreting-rs-ur-df-dickey-fuller-unit-root-test-results
@@ -101,7 +101,7 @@ summary(DF4)
 # Test de Phillips-Perron
 PP1 <- ur.pp(data$lpib, type="Z-tau", model="trend", lags="short")
 summary(PP1)
-#plot(PP1)
+
 
 # Test de Elliot-Rothenberg-Stock
 ERS <- ur.ers(data$lpib, type = "P-test", model = "trend", lag = 1)
