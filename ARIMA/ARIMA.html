@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Modelos ARIMA</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Erika R. Badillo   erika.badilloen@unaula.edu.co                  " />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Modelos ARIMA
+]
+.author[
+### Erika R. Badillo <br> <span class="notbold" style="font-size:65%"><a href="mailto:erika.badilloen@unaula.edu.co" class="email">erika.badilloen@unaula.edu.co</a></span> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+]
+.date[
+### <span class="notbold" style="font-size:65%">Econometría II <br> Programa de Economía <br> Universidad Autónoma Latinoamericana</span>
+]
+
+---
+
+
+
+
+&lt;style&gt;
+.notbold{
+    font-weight:normal
+}
+
+body {
+text-align: justify;
+}
+
+h1{
+      margin-top: -1px;
+      margin-bottom: -3px;
+}
+
+.small-code pre{
+  margin-bottom: -10px;
+  
+}  
+
+.medium-code pre{
+  margin-bottom: 2px;
+  
+} 
+&lt;/style&gt;
+
+
+
+
+
+
+&lt;font size = "5"&gt;
+
+# &lt;span style="font-size:80%"&gt;En este tema&lt;/span&gt;
+
+- &lt;span style="font-size:150%"&gt;[&lt;span style="color:black"&gt;Introducción](#introduccion)&lt;/span&gt; &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt; [&lt;span style="color:black"&gt;El enfoque Box-Jenkins](#BJ)&lt;/span&gt; &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt; [&lt;span style="color:black"&gt;Modelos ARIMA estacionales](#estacional)&lt;/span&gt; &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt; [&lt;span style="color:black"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos](#r1)&lt;/span&gt; &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt; [&lt;span style="color:black"&gt;Ejercicio aplicado en R: desempleo estacional de los Estados Unidos](#r2)&lt;/span&gt;
+
+---
+# &lt;span style="font-size:80%"&gt;Lecturas&lt;/span&gt;
+- &lt;span style="font-size:150%"&gt;Maddala, GS. y Lahiri, K. (2009). *Introduction to econometrics*. 4a edición, Willey. &lt;span style="color:blue"&gt;Cap 13 &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt;Enders, W. (2014). *Applied econometric time series*. 4th edition, Wiley. &lt;span style="color:blue"&gt;Cap 2, sección 8 &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt;Pfaff, B. (2008). *Analysis integrated and cointegrated series with R*. 2th edition, Springer. &lt;span style="color:blue"&gt;Part I, sección 1.4 &lt;br&gt;
+
+- &lt;span style="font-size:150%"&gt;Hyndman, R.J., y Athanasopoulos, G. (2021). [*Forecasting: principles and practice*](https://otexts.com/fpp3/), 3rd edition, OTexts: Melbourne, Australia.&lt;br&gt;
+
+&lt;span style="font-size:150%"&gt; Páginas webs
+- &lt;span style="font-size:150%"&gt;https://finnstats.com/index.php/2021/04/26/timeseries-analysis-in-r/
+
+---
+name: introduccion
+# &lt;span style="font-size:80%"&gt;Introducción&lt;/span&gt;
+
+- Hemos estudiado cómo una serie de tiempo puede ser explicada o bien por su historia (AR(p)) o por choques contemporáneos o pasados (MA(q))
+
+- También estudiamos que estos dos procesos pueden ponerser juntos en un proceso más general ARMA(p,q)
+
+- Ahora estudiaremos los modelos ARIMA o el enfoque de Box-Jenkins para series de tiempo
+
+- Este enfoque consiste en tres etapas:
+ 1. Identificación
+ 2. Estimación
+ 3. Diagnóstico
+ 
+---
+name: BJ
+# &lt;span style="font-size:80%"&gt;El enfoque Box-Jenkins&lt;/span&gt;
+
+- El enfoque de Box-Jenkins (BJ) es una de las metodologías más amplia para el análisis de las series de tiempo
+
+- Los pasos básicos de la metodología BJ son:
+&lt;p style="margin-bottom: -1em"&gt;
+ 1. diferenciar la serie, de modo que se alcance la estacionariedad
+ 2. identificar modelos tentativos
+ 3. estimar los modelos
+ 4. diagnósticar los modelos y seleccionar el mejor
+ 5. usar el modelo para pronosticar
+ 
+---
+# &lt;span style="font-size:80%"&gt;El enfoque Box-Jenkins&lt;/span&gt;
+
+**&lt;font color = "blue"&gt;Primer paso&lt;/font&gt;** 
+&lt;p style="margin-bottom: -1em"&gt;
+- Determinar si la series es estacionaria
+&lt;p style="margin-bottom: -1em"&gt;
+ - correlograma
+ - test de raices unitarias
+- Si la serie no es estacionaria deferenciarla (cuantas veces sea necesario) para logra su estacionariedad
+
+**&lt;font color = "blue"&gt;Segundo paso&lt;/font&gt;** 
+&lt;p style="margin-bottom: -1em"&gt;
+- Examinar el correlograma de la serie estacionaria para decidir los ordenes apropiados de los componentes AR y MA
+
+**&lt;font color = "blue"&gt;Tercer paso&lt;/font&gt;** 
+&lt;p style="margin-bottom: -1em"&gt;
+- Estimación del modelo ARMA
+
+**&lt;font color = "blue"&gt;Cuarto paso&lt;/font&gt;** 
+&lt;p style="margin-bottom: -1em"&gt;
+- Diagnóstico de los modelos para comprobar la ideonidad del modelo tentativo
+
+**&lt;font color = "blue"&gt;Quinto paso&lt;/font&gt;** 
+&lt;p style="margin-bottom: -1em"&gt;
+- Realizar el pronóstico con el modelo ARIMA seleccionado
+
+---
+name: estacional
+# &lt;span style="font-size:80%"&gt;Modelos ARIMA estacionales&lt;/span&gt;
+
+Hasta ahora, hemos restringido la atención a datos no estacionales y modelo ARIMA no estacionales. Sin embargo, los modelos ARIMA también son capaces de modelar un amplio rango de dato estacionales. Los datos estacionales tienen la forma:
+&lt;font size = 3&gt;
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-1-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+Un modelo estacional ARIMA incluye términos estacionales adicionales y tiene la siguiente estructura 
+
+`$$ARIMA \underbrace{(p,d,q)}_{\text{No estacional}} \underbrace{(P,D,Q)_m}_{\text{ Estacional}}$$`
+donde `\(m=\)` el periodo estacional (ejemplo, número de observaciones por año)
+
+---
+# &lt;span style="font-size:80%"&gt;Modelos ARIMA estacionales&lt;/span&gt;
+Para definir la estructura estacional de una serie de tiempo se sigue el mismo procedimiento que con la parte nos estacional, es decir viendo el correlograma
+
+Correlogragra de un proceso `\(ARIMA(0,0,0)(0,0,1)_{12}\)`
+&lt;p style="margin-bottom: -1em"&gt;
+- AC: un pico estadísticamente significativo en el rezago 12 pero no significancia de otros picos
+- PAC: decae exponencialmente en los rezagos estacionales (es decir, en los rezagos 12, 24, 36,...)
+
+Correlogragra de un proceso `\(ARIMA(0,0,0)(1,0,0)_{12}\)`
+&lt;p style="margin-bottom: -1em"&gt;
+- AC: decae exponencialmente en los rezagos estacionales (es decir, en los rezagos 12, 24, 36,...)
+- PAC: un pico estadísticamente significativo en el rezago 12 pero no significancia de otros picos
+
+---
+name: r1
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+&lt;font size = 3&gt;
+
+``` r
+library(urca); library(tidyverse); library(forecast); library(stats); library(lmtest)
+data(npext)
+data &lt;- npext |&gt; select(year, gnpperca) |&gt; mutate(year = as.numeric(year, format="%Y"))|&gt; 
+  filter(year&gt;=1909 &amp; year&lt;=1988)
+```
+
+
+``` r
+ggplot(data) +
+  geom_line(aes(x=year, y=gnpperca), color="blue") +
+  geom_hline(yintercept = 7.728, linetype = "dashed", color = "red") +
+  labs(title="PIB real per capita (media = 7.7)", x="Años", y="") +
+  theme(axis.text.y = element_text(size = 12), axis.text.x = element_text(size = 12)) + 
+  scale_x_continuous(n.breaks = 10)
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-3-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+La serie no es estacionaria:
+&lt;p style="margin-bottom: -1em"&gt;
+- Existe una tendencia creciente
+- Cuando se hace el Dickey-Fuller Aumentado indica que la serie no es estacionaria (al 1%)
+- El correlograma muestra una estructura AR(1)
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+
+Diferenciamos la serie
+
+
+``` r
+data &lt;- data |&gt; 
+  mutate(dgnpperca = c(NA,diff(gnpperca)))
+
+ggplot(data) +
+  geom_line(aes(x=year, y=dgnpperca), color="blue") +
+  geom_hline(yintercept = 0.01681, linetype = "dashed", color = "red") +
+  labs(title="Primera diferencia del PIB real per capita (media = 0.017)", x="Años", y="") +
+  theme(axis.text.y = element_text(size = 12), axis.text.x = element_text(size = 12)) + 
+  scale_x_continuous(n.breaks = 10)
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-4-1.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+La serie ya es estacionaria:
+&lt;p style="margin-bottom: -1em"&gt;
+- No tiene tendencia aunque es algo volátil
+- Cuando se hace el Dickey-Fuller Aumentado indica que la serie es estacionaria
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+
+Ahora calculamos el correlograma de la serie estacionaria para determinar las estructuras ARIMA posibles
+
+.small-code[
+.pull-left-50[
+
+``` r
+ggAcf(data$dgnpperca, main="Función AC dif PIB real per capita", ylab="AC")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+ggPacf(data$dgnpperca, main="Función PAC dif PIB real per capita", ylab="PAC")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+Parece ser un proceso ARIMA(1,1,1). Estimemos también un proceso más parsimonioso ARIMA(1,1,0) y utilicemos la función `auto.arima` para definir un tercer proceso y ponerlos a competir
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+
+
+``` r
+arima111 &lt;- arima(data$gnpperca, order=c(1,1,1))
+coeftest(arima111)
+```
+
+```
+
+z test of coefficients:
+
+    Estimate Std. Error z value Pr(&gt;|z|)
+ar1 0.297515   0.232692  1.2786   0.2010
+ma1 0.087575   0.233412  0.3752   0.7075
+```
+
+``` r
+arima110 &lt;- arima(data$gnpperca, order=c(1,1,0))
+coeftest(arima110)
+```
+
+```
+
+z test of coefficients:
+
+    Estimate Std. Error z value  Pr(&gt;|z|)    
+ar1  0.37186    0.10359  3.5898 0.0003309 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+``` r
+arima_auto &lt;- auto.arima(data$gnpperca, allowdrift = F)
+coeftest(arima_auto)
+```
+
+```
+
+z test of coefficients:
+
+     Estimate Std. Error  z value  Pr(&gt;|z|)    
+ar1  0.824304   0.092250   8.9355 &lt; 2.2e-16 ***
+ar2 -0.864219   0.080500 -10.7356 &lt; 2.2e-16 ***
+ma1 -0.621339   0.075901  -8.1862 2.697e-16 ***
+ma2  0.959728   0.095625  10.0364 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+
+Para comparar los modelos se debe analizar los residuales de cada uno y utilizar los criterios de información. Se debe entonces:
+&lt;p style="margin-bottom: -1em"&gt;
+- calcular el correlograma
+- realizar los tests: `checkresiduals` y Shapiro-Wilk de normalidad
+
+En los tres modelos los residuales se comportan bien. Pasamos a mirar los criterios de información (el mejor modelo es que tenga menor valor)
+
+
+``` r
+AIC(arima111); AIC(arima110); AIC(arima_auto)
+```
+
+```
+[1] -225.0382
+```
+
+```
+[1] -226.8975
+```
+
+```
+[1] -227.649
+```
+
+``` r
+BIC(arima111); BIC(arima110); BIC(arima_auto)
+```
+
+```
+[1] -217.9298
+```
+
+```
+[1] -222.1586
+```
+
+```
+[1] -215.8017
+```
+
+Con el AIC el ARIMA(2,1,2) es el mejor, pero con el BIC el ARIMA(1,1,0) es mejor. Sin embargo, el ARIMA(2,1,2) mostró alta significancia en los coeficientes estimados, por eso se selecciona este último modelo 
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+
+Una vez se ha seleccionado un modelo ARIMA, puede ser usado para predecir valores futuros de la variable de interes
+
+Estas predicciones pueden ser calculadas recursivamente desde el predictor lineal
+
+$$
+`\begin{aligned}
+Y_T(h) = &amp; \rho_1 \overline{Y}_{T+h-1} + ... + \rho_1 \overline{Y}_{T+h-p} +\\
+         &amp; \epsilon_t + \theta_1 \epsilon_{t-T-1} + ... + \epsilon_{t-T-q}  
+\end{aligned}`
+$$
+
+donde `\(\overline{Y}_t = Y_t\)` para `\(t\leq T\)` y `\(\overline{Y}_{T+j} = Y_T(j)\)` para `\(j = 1,...,h-1\)`
+
+Este predictor es equivalente a
+
+`$$Y_T(h) = \mu + \psi_h \epsilon_t + \psi_{h+1} \epsilon_{t-1} + \psi_{h+2} \epsilon_{t-2} + ...$$`
+
+Cuando el horizonte de predicción `\(h\)` es mayor que el orden q del MA, la predicción son determinandas sólo por los términos autorregresivos
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: PIB real per cápita de los Estados Unidos&lt;/span&gt;
+Vamos a predecir 10 años de la tasa de desempleo
+
+
+``` r
+arima212 &lt;- arima(data$gnpperca, order=c(2,1,2))
+data.pred &lt;- data |&gt; 
+  add_row(year=c(1989:1998)) |&gt; 
+  mutate(arima212.pred =  c(rep(NA, length(data$gnpperca)-1), data$gnpperca[length(data$gnpperca)], predict(arima212, n.ahead = 10)$pred),
+         arima212.se =  c(rep(NA, length(data$gnpperca)), predict(arima212, n.ahead = 10)$se),
+         ic_ub = arima212.pred + qt(0.025, nobs(arima212)-length(arima212$coefficients), lower.tail = F)*arima212.se,
+         ic_lb = arima212.pred - qt(0.025, nobs(arima212)-length(arima212$coefficients), lower.tail = F)*arima212.se)
+
+ggplot(data.pred) + 
+  geom_line(aes(x = year, y = gnpperca, color = "Observada"), linewidth = 1.5) + 
+  geom_line(aes(x = year, y = arima212.pred, color = "Predicha"), linewidth = 1.5) + 
+  geom_ribbon(aes(x = year, y = arima212.pred, ymin = ic_lb, ymax = ic_ub, fill="IC"), alpha = 0.1) +
+  theme(legend.text = element_text(size = 14), text = element_text(size=16), legend.spacing.y = unit(-0.4, "cm"), legend.background=element_blank()) + 
+  guides(shape = guide_legend(order = 2), col = guide_legend(order = 1)) + 
+  scale_color_manual(name = "", values = c("Observada" = "darkblue", "Predicha" = "red")) + 
+  scale_fill_manual(values = c(IC = "steelblue"), labels = c(IC = "IC 95%")) + 
+  labs(title="Gráfico 1. PIB real per cápita", x = "Años", y ="", fill = "") + 
+  scale_x_continuous(n.breaks = 10)
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-9-1.png" width="35%" style="display: block; margin: auto;" /&gt;
+
+---
+name: r2
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+
+En este ejemplo se decribe la modelación de un ARIMA estacional usando los datos mensuales de desempleo para Estados Unidos. Se toman los datos para el sector de ocio y hostelería desde enero de 2001 a septiembre de 2019
+
+
+``` r
+data("us_employment")
+
+leisure &lt;- us_employment |&gt;  filter(Title == "Leisure and Hospitality", year(Month) &gt; 2000) |&gt;
+  mutate(Employed = Employed/1000) |&gt; select(Month, Employed)
+autoplot(leisure, Employed) + labs(title = "Desempleo US: Sector de ocio", y="# de personas (en millones)")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-10-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+Los datos son claramente no estacionarios, con una fuerte estacionalidad y tendencia no lineal
+
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+Se toma una diferencia estacional en 12 meses, para eliminar esa estacionalidad
+
+
+``` r
+leisure &lt;- leisure |&gt; mutate(Employed.e12 = difference(leisure$Employed, 12))
+ts.plot(leisure$Employed.e12)
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-11-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+.small-code[
+.pull-left-50[
+
+``` r
+ggAcf(leisure$Employed.e12, main="Función AC", ylab="AC")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+ggPacf(leisure$Employed.e12, main="Función PAC", ylab="PAC")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+
+Se observa que no hay estacionariedad, así que se toman primeras diferencias y se vuelve a mirar el correlograma
+
+``` r
+leisure &lt;- leisure |&gt; mutate(dEmployed.e12 = difference(leisure$Employed.e12, 1))
+ts.plot(leisure$dEmployed.e12)
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-14-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+.small-code[
+.pull-left-50[
+
+``` r
+ggAcf(leisure$dEmployed.e12, main="Función AC", ylab="AC")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right-50[
+
+``` r
+ggPacf(leisure$dEmployed.e12, main="Función PAC", ylab="PAC")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+&lt;font size=3&gt;
+Potenciales modelos que surgen con base en el anterior correlograma:
+&lt;p style="margin-bottom: -1em"&gt;
+- la significancia en el rezago 2 de la AC sugiere un MA(2) en la parte no estacional. La significancia en el rezago 12 en la AC sugiere un MA(1) en la parte estacional. El proceso sería un ARIMA(0,1,2)(0,1,1)
+- si se usa la PAC para seleccionar la parte no estacional y la AC para seleccionar la parte estacional, surge un ARIMA(2,1,2)(0,1,1)
+- También se incluye la selección atomática
+
+.pull-left-50[
+
+``` r
+arima012011 &lt;- arima(leisure$Employed, order=c(0,1,2),
+                     seasonal = list(order = c(0, 1, 1), period = 12))
+arima012011
+```
+
+```
+
+Call:
+arima(x = leisure$Employed, order = c(0, 1, 2), seasonal = list(order = c(0, 
+    1, 1), period = 12))
+
+Coefficients:
+         ma1     ma2     sma1
+      0.2315  0.2167  -0.5006
+s.e.  0.0707  0.0621   0.0814
+
+sigma^2 estimated as 0.001433:  log likelihood = 391.45,  aic = -774.9
+```
+]
+
+.pull-right-50[
+
+``` r
+arima210011 &lt;- arima(leisure$Employed, order=c(2,1,0),
+                     seasonal = list(order = c(0, 1, 1), period = 12), method="ML")
+arima210011
+```
+
+```
+
+Call:
+arima(x = leisure$Employed, order = c(2, 1, 0), seasonal = list(order = c(0, 
+    1, 1), period = 12), method = "ML")
+
+Coefficients:
+         ar1     ar2     sma1
+      0.2102  0.1941  -0.4969
+s.e.  0.0683  0.0679   0.0788
+
+sigma^2 estimated as 0.001425:  log likelihood = 392.09,  aic = -776.19
+```
+]
+
+
+``` r
+autoarima &lt;- leisure |&gt;
+  model(ARIMA(Employed, stepwise = FALSE, approx = FALSE))
+report(autoarima)
+```
+
+```
+Series: Employed 
+Model: ARIMA(2,1,0)(1,1,1)[12] 
+
+Coefficients:
+         ar1     ar2    sar1     sma1
+      0.1786  0.1855  0.3295  -0.7507
+s.e.  0.0695  0.0679  0.1273   0.0936
+
+sigma^2 estimated as 0.001415:  log likelihood=394.96
+AIC=-779.92   AICc=-779.63   BIC=-763.14
+```
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+
+
+``` r
+AIC(arima012011); AIC(arima210011)
+```
+
+```
+[1] -774.8994
+```
+
+```
+[1] -776.189
+```
+
+``` r
+BIC(arima012011); BIC(arima210011)
+```
+
+```
+[1] -761.4731
+```
+
+```
+[1] -762.7627
+```
+
+``` r
+glance(autoarima)
+```
+
+```
+# A tibble: 1 × 8
+  .model            sigma2 log_lik   AIC  AICc   BIC ar_roots ma_roots
+  &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;   &lt;list&gt;  
+1 ARIMA(Employed,… 0.00142    395. -780. -780. -763. &lt;cpl&gt;    &lt;cpl&gt;   
+```
+
+De acuerdo con los criterios de información, el mejor modelo es el de la selección automática
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+
+Miremos los residuales del modelo
+
+``` r
+autoarima |&gt; gg_tsresiduals(lag=36)
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-21-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+Un pequeño pero significante pico (en el rezago 11) de 36 es aún consistente con un comportamiento ruido blanco. Para estar seguros, se calcula el test Ljung-Box
+
+
+``` r
+augment(autoarima) |&gt;
+  features(.innov, ljung_box, lag=24, dof=4)
+```
+
+```
+# A tibble: 1 × 3
+  .model                                            lb_stat lb_pvalue
+  &lt;chr&gt;                                               &lt;dbl&gt;     &lt;dbl&gt;
+1 ARIMA(Employed, stepwise = FALSE, approx = FALSE)    16.6     0.680
+```
+El pvalor es muy grande con lo que se confirma que los residuales son similares a un ruido blanco
+
+---
+# &lt;span style="font-size:80%"&gt;Ejercicio aplicado en R: desempleo estacional en los Estados Unidos&lt;/span&gt;
+
+Haciendo la predicción con el modelo seleccionado
+
+
+``` r
+fabletools::forecast(autoarima, h=36) |&gt;
+  autoplot(leisure) +
+  labs(title = "Predicción del desempleo en el sector de ocio US",
+       y="# de personas (en millones)")
+```
+
+&lt;img src="ARIMA_files/figure-html/unnamed-chunk-23-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
