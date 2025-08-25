@@ -192,7 +192,7 @@ Esta &lt;font color="blue"&gt;transformación de Koyck&lt;/font&gt; tiene las si
 
 1. Empezamos con un modelo de rezagos distribuidos y terminamos con un modelo autorregresivo
 
-2. `\(Y_{t−1}\)` como expicativa implica algunos problemas. `\(Y_{t−1}\)`, al igual que `\(Y_t\)`, es estocástica (aletoria), lo cual significa que tenemos una variable explicativa estocástica en el modelo. En los mínimos cuadrados es necesaio el supuesto de que las variables explicativas son no estocásticas (no aleatorias)
+2. `\(Y_{t−1}\)` como expicativa implica algunos problemas. `\(Y_{t−1}\)`, al igual que `\(Y_t\)`, es estocástica (aletoria), lo cual significa que tenemos una variable explicativa estocástica en el modelo. En los mínimos cuadrados es necesario el supuesto de que las variables explicativas son no estocásticas (no aleatorias)
 
 3. `\(v_t = u_t - \lambda u_{t-1}\)` implica problemas de correlación serial
 
@@ -207,17 +207,17 @@ Esta &lt;font color="blue"&gt;transformación de Koyck&lt;/font&gt; tiene las si
 
 Es el tiempo requerido para la primera mitad, o 50%, del cambio total ocurrido en `\(Y\)` como consecuencia de un cambio unitario sostenido en `\(X\)`
 
-`$$\text{Modelo de Koyck: Mediana de los rezagos} = -\frac{log 2}{log \lambda}$$`
+`$$\text{Mediana de los rezagos} = -\frac{log 2}{log \lambda}$$`
 
 Por ejemplo:&lt;br&gt; 
 `\(\lambda=0.2 \Longrightarrow\)` mediana de los rezagos = 0.4306: 50% del cambio total en `\(Y\)` se logra en menos de la mitad de un periodo &lt;br&gt;
 `\(\lambda=0.8 \Longrightarrow\)` mediana de los rezagos = 3.1067: 50% del cambio total en `\(Y\)` se logra en más de 3 periodos&lt;br&gt;
-`\(\lambda\)` es la velocidad de ajuste, con lo que entre más alto sea `\(\lambda\)` mayor será la velocidad de juste, y entre menor se el valor de `\(\lambda\)` mayor será la velocidad de ajuste
+`\(\lambda\)` es la velocidad de ajuste, con lo que entre más alto sea `\(\lambda\)` menor será la velocidad de ajuste, y entre menor sea el valor de `\(\lambda\)` mayor será la velocidad de ajuste
 
 
 &lt;font color="blue"&gt;Rezago medio&lt;/font&gt;
 
-`$$\text{Modelo de Koyck: Media de los rezagos} = \frac{\lambda}{1- \lambda}$$`
+`$$\text{Media de los rezagos} = \frac{\lambda}{1- \lambda}$$`
 
 Por ejemplo:&lt;br&gt;
 `\(\lambda=0.5 \Longrightarrow\)` rezago medio = 1: se requiere en promedio un periodo para que el efecto de los cambios en `\(X\)` se sientan en los cambios en `\(Y\)`
@@ -281,13 +281,6 @@ name: armax
 - Una desventaja de este modelo es que los `\(\beta_i\)` son difíciles de interpretar. El `\(\beta_0\)` no es el efecto sobre `\(Y_t\)` cuando `\(X_{t}\)` incremente en una unidad, como en un modelo de regresión normal
 
 - La presencia de valores rezagados de la variable dependiente al lado derecho de la ecuación implica que, los `\(\beta_i\)` sólo pueden interpretarse condicional a los valores pasados de `\(Y_t\)`, lo cual es poco intuitivo
-
-- Si reescribimos el modelo usando los operadores de rezagos, el modelo ARMAX es dado por
-
-`$$\gamma(L)Y_t = \beta(L)X_t + \phi(L)u_t \Longrightarrow Y_t = \frac{\beta(L)}{\gamma(L)}X_t + \frac{\phi(L)}{\gamma(L)}u_t$$`
-  donde `\(\beta(L) = \beta_1L-...-\beta_bL^b\)`, `\(\gamma(L) = 1-\gamma_1L-...-\gamma_pL^p\)` y `\(\phi(L) = 1-\phi_1L-...-\phi_pL^q\)`  
-
-- Observe cómo los coeficientes AR se mezclan tanto con las covariables como con el término de error
 
 ---
 # &lt;span style="font-size:80%"&gt;Modelo ARMAX&lt;/span&gt;
