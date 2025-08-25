@@ -15,3 +15,4 @@ Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
 - [Autocorrelación](https://ebadilloe.github.io/EconometriaII/Autocorrelación/Autocorrelacion.html)<br>
 - [Introducción a series de tiempo](https://ebadilloe.github.io/EconometriaII/IntroSeriesTiempo/IntroSeriesTiempo.html)<br>
 - [Modelos ARIMA](https://ebadilloe.github.io/EconometriaII/ARIMA/ARIMA.html)<br>
+- [Modelos de series de tiempo con variables exógenas](https://ebadilloe.github.io/EconometriaII/VarExogenas/VarExogenas.html)<br>
