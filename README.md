@@ -17,3 +17,5 @@ Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
 - [Modelos ARIMA](https://ebadilloe.github.io/EconometriaII/ARIMA/ARIMA.html)<br>
 - [Modelos de series de tiempo con variables exógenas](https://ebadilloe.github.io/EconometriaII/VarExogenas/VarExogenas.html)<br>
 - [Introducción a modelos VAR](https://ebadilloe.github.io/EconometriaII/IntroVar/IntroVar.html)<br>
+- [Variables instrumentales](https://ebadilloe.github.io/EconometriaII/IV/IV.html)<br>
+- [Modelo de ecuaciones simultáneas](https://ebadilloe.github.io/EconometriaII/EcuSimultaneas/EcuSimultaneas.html)<br>
