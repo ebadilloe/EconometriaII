@@ -19,3 +19,4 @@ Profesora: [**Erika R. Badillo**](https://ebadilloe.github.io)
 - [Introducción a modelos VAR](https://ebadilloe.github.io/EconometriaII/IntroVar/IntroVar.html)<br>
 - [Variables instrumentales](https://ebadilloe.github.io/EconometriaII/IV/IV.html)<br>
 - [Modelo de ecuaciones simultáneas](https://ebadilloe.github.io/EconometriaII/EcuSimultaneas/EcuSimultaneas.html)<br>
+- [Modelos de elección](https://ebadilloe.github.io/EconometriaII/ModelosEleccion/ModelosEleccion.html)<br>
