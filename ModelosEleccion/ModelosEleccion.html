@@ -68,7 +68,6 @@ h1{
 
 
 
----
 # &lt;span style="font-size:80%"&gt;En este tema&lt;/span&gt;
 
 - &lt;span style="font-size:150%"&gt;[&lt;span style="color:black"&gt;Motivación](#motivacion)&lt;/span&gt; &lt;br&gt; &lt;br&gt;
@@ -137,10 +136,10 @@ En este caso el problema de decisión binaria ( `\(j=0,1\)`) se puede plantear e
 Suponiendo, además, linealidad en las funciones, implicaría que:
 
 `$$U_{i0} = \overline{U}_{i0} + \epsilon_{i0} = \alpha_{0} + X_{i0}\beta + \epsilon_{i0}$$`
-`$$U_{i1} = \overline{U}_{i1} + \epsilon_{i0} = \alpha_{1} + X_{i1}\beta + \epsilon_{i1}$$`
+`$$U_{i1} = \overline{U}_{i1} + \epsilon_{i1} = \alpha_{1} + X_{i1}\beta + \epsilon_{i1}$$`
 
 
-`\(\overline{U}_{ij}\)` representa las utilidades medias, que pueden ser observadas y son función de una combinación lineal de las variables explicativas observadas: `\(X_{ij}\beta\)`
+`\(\overline{U}_{ij}\)` representa las utilidades medias y son función de una combinación lineal de las variables explicativas observadas: `\(X_{ij}\beta\)`
 
 `\(\epsilon_{ij}\)` representan aquellos factores de la utilidad asociada a cada una de las alternativas que son desconocidas y que pueden variar según los individuos y según la alternativa
 
@@ -189,7 +188,7 @@ name: mpl
 	
 `$$y = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k + u$$`
 
-cuando `\(y\)` es una variable bivariada?
+cuando `\(y\)` es una variable binaria?
 
 Como `\(y\)` sólo puede tomar dos valores, &lt;span style="color:blue"&gt;los `\(\beta_j\)` no pueden interpretarse como el cambio en `\(y\)` dado una variación de `\(x_j\)`&lt;/span&gt;
 
@@ -206,9 +205,9 @@ Con lo cual se llega a la ecuación:
 
 `$$E(y|\textbf{x})= P(y=1 |\textbf{x}) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k$$`
 
-que indica que la probabilidad de éxito, es decir, `\(p(\textbf{x})=P(y=1|\textbf{x})\)`, es función lineal de las variables `\(x_j\)`
+que indica que la probabilidad de éxito, es decir, es función lineal de las variables `\(x_j\)`
 
-La anterior ecuación es un ejemplo de un modelo de respuesta bivariada y a `\(P(y=1 |\textbf{x})\)` también se le conoce como la &lt;span style="color:blue"&gt;probabilidad de respuesta&lt;/span&gt;
+La anterior ecuación es un ejemplo de un modelo de respuesta binaria y a `\(P(y=1 |\textbf{x})\)` también se le conoce como la &lt;span style="color:blue"&gt;probabilidad de respuesta&lt;/span&gt;
 
 ---
 name: limitaciones
@@ -221,7 +220,7 @@ A un modelo de regresión líneal múltiple en el que la variable dependiente es
 
 `$$\Delta \text{P}(y=1|\textbf{x}) = \beta_j \Delta x_j$$`
 
-Del análisis anterior parece que los MCO pueden extenderse sin dificultad a modelos de regresión con variable dependiente binaria. Sin embargo, no es tan inmediato, ya que el MPL plantea diversos problemas:
+Del análisis anterior parece que los MCO pueden extenderse sin dificultad a modelos de regresión con variable dependiente binaria. Sin embargo, no es tan inmediato, ya que el MPL plantea diversas limitaciones:
 - El `\(R^2\)` no es adecuado como medida de bondad de ajuste
 - No normalidad de las perturbaciones `\(u_i\)`
 - Varianzas heteroscedásticas de las perturbaciones
@@ -241,7 +240,7 @@ El `\(R^2\)` de manera convencional tiende a estar subestimado ya que la SCR es 
 
 El supuesto de normalidad en los `\(u_i\)` es necesario para fines de inferencia estadística
 
-Sin embargo, este supuesto no se mantienen en los MPL ya que, al igual que `\(y\)`, `\(u_i\)` sólo toma dos valores, es decir, que sigue una distribución de Bernoulli
+Sin embargo, este supuesto no se mantiene en los MPL ya que, al igual que `\(y\)`, `\(u_i\)` sólo toma dos valores, es decir, que sigue una distribución de Bernoulli
 
 Pero el no cumplimiento del supuesto de normalidad quizá no sea tan crítico como parece, ya que las estimaciones puntuales de MCO aún permanecen insesgadas
 
