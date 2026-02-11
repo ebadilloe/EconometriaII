@@ -12,10 +12,6 @@ forcats
 lubridate
 klippy
 xaringanExtra
-wooldridge
-summarytools
-modelsummary
-gt
 foreign
 zoo
 lmtest
