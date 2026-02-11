@@ -98,7 +98,7 @@ name: introduccion
 
 &lt;font color = "blue"&gt;Perturbaciones heteroscedásticas&lt;/font&gt;: diferente varianza
 
-- La heteroscedasticidad normalmente aparece datos de &lt;font color = "blue"&gt;sección cruzada&lt;/font&gt; (datos microeconómicos) y series de tiempo muy volátiles de alta frecuencia (datos diarios del mercado financiero)
+- La heteroscedasticidad normalmente aparece en datos de &lt;font color = "blue"&gt;sección cruzada&lt;/font&gt; (datos microeconómicos) y series de tiempo muy volátiles de alta frecuencia (datos diarios del mercado financiero)
 
 - Las perturbaciones se asumen aún incorrelacionadas entre observaciones, por tanto `\(\sigma_{u}^2\boldsymbol\Omega\)` sería
 
@@ -136,13 +136,13 @@ name: consecuencias
 
 `$$E(\textbf{u})=0$$`
 `$$Cov(\textbf{u})=E(\textbf{u}\textbf{u}')=\sigma_{u}^2 \textbf{I}$$`
-- El estimado MCO
+- El estimador MCO
 
 `$$\hat{\textbf{B}}=(\textbf{X}'\textbf{X})^{-1}\textbf{X}'\textbf{Y}$$`
 
 `$$\hat{\textbf{B}}=\textbf{B} + (\textbf{X}'\textbf{X})^{-1}\textbf{X}'\textbf{u}$$`
 
-es el mejor estimador lineal insesgado, consistente y distribuido asintóticamente como una normal (CAN) 
+es el mejor estimador lineal insesgado, consistente y distribuido asintóticamente como una normal 
 
 - Los estimadores MCO mantienen sólo algunas de las propiedades deseables en este modelo. Los estimadores MCO permanecen &lt;font color = "blue"&gt;insesgados&lt;/font&gt;, &lt;font color = "blue"&gt;consistentes&lt;/font&gt;, y con &lt;font color = "blue"&gt;distribución asintótica normal&lt;/font&gt;. No serán &lt;font color = "blue"&gt;eficientes&lt;/font&gt; y los procedimientos normales de &lt;font color = "blue"&gt;inferencia no son ya apropiados&lt;/font&gt; 
 
@@ -173,7 +173,7 @@ $$
 
 - Normalmente no hay forma de conocer si `\(\sigma_{u}^2\)` es mayor o menor que la verdadera varianza de `\(\hat{\textbf{B}}\)` por lo que incluso con un buen estimador de `\(\sigma_{u}^2\)`, el estimador convencional de `\(Cov(\hat{\textbf{B}})\)` puede no ser particularmente útil
 
-- Dado que hemos prescindido de supuesto fundamental subyacente, los procedimientos de inferencia habituales basados en las distribuciones F y t no serán ahora apropiados
+- Dado que hemos prescindido de un supuesto fundamental subyacente, los procedimientos de inferencia habituales basados en las distribuciones F y t no serán ahora apropiados
 
 ---
 name: MCG
@@ -244,24 +244,6 @@ Cuando `\(\boldsymbol\Omega\)` es una matriz diagonal de varianzas de error no i
 
 ``` r
 library(foreign); library(lmtest); library(sandwich)
-```
-
-```
-Cargando paquete requerido: zoo
-```
-
-```
-
-Adjuntando el paquete: 'zoo'
-```
-
-```
-The following objects are masked from 'package:base':
-
-    as.Date, as.Date.numeric
-```
-
-``` r
 data &lt;- read.dta("https://stats.idre.ucla.edu/stat/stata/webbooks/reg/elemapi2.dta")
 
 ols &lt;- lm(api00 ~ meals + ell + emer, data=data, subset = data$meals&gt;0) 
@@ -281,7 +263,7 @@ data:  ols
 BP = 8.442, df = 3, p-value = 0.03771
 ```
 
-Ausumiendo que la variable `\(meals\)` es la cuausante de la heteroscedasticidad y que la estructura de la heteroscedasticidad es `\(Var(u) = \sigma^2meals\)`, el modelo corregido por MCP será
+Ausumiendo que la variable `\(meals\)` es la causante de la heteroscedasticidad y que la estructura de la heteroscedasticidad es `\(Var(u) = \sigma^2meals\)`, el modelo corregido por MCP será
 
 
 ``` r
@@ -332,7 +314,7 @@ $$
 \text{HC1:}  &amp; &amp; w_i &amp; = \frac{n}{n-k}\widehat{u}_i^2 &amp; \text{mejoras en muestras pequeñas}\\
 \text{HC2:}  &amp; &amp; w_i &amp; = \frac{\widehat{u}_i^2}{1-h_{ii}} &amp; \text{mejoras en muestras pequeñas}\\
 \text{HC3:}  &amp; &amp; w_i &amp; = \frac{\widehat{u}_i^2}{(1-h_{ii})^2} &amp; \text{mejoras en muestras pequeñas}\\
-\text{HC4:}  &amp; &amp; w_i &amp; = \frac{\widehat{u}_i^2}{(1-h_{ii})^{\delta_i}} &amp; \text{mejoras en muestras pequeñas, en el caso de outiers}\\
+\text{HC4:}  &amp; &amp; w_i &amp; = \frac{\widehat{u}_i^2}{(1-h_{ii})^{\delta_i}} &amp; \text{mejoras en muestras pequeñas, en el caso de outliers}\\
 \end{aligned}`
 $$
 donde `\(h_{ii}\)` son los valores estimados, `\(\delta_i = min\{4,h_{ii}/\bar{h}\}\)`
