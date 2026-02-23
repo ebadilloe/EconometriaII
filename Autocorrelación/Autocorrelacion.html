@@ -92,7 +92,7 @@ name: naturaleza
 
 - Ya que los datos de corte transversal se recopilan con base en una muestra aleatoria de unidades transversales (familias o empresas) no existe razón previa para pensar que el término de error correspondiente a una familia o empresa esté correlacionado con el término de error de otra familia o empresa `\(\Longrightarrow\)` a menos de que exista &lt;font color = "blue"&gt;autocorrelación espacial&lt;/font&gt;, es decir una autocorrelación en el espacio más que en el tiempo
 
-- Cuando se trabajan con datos de series de tiempo, estos datos siguen un ordenamiento natural respecto del tiempo, &lt;font color = "blue"&gt;de modo que es muy posible que las observaciones sucesivas muestren intercorrelaciones, sobre todo si el intervalo ente observaciones sucesivas es muy corto, como un día, una semana o un mes: por ejemplo, los índices bursátiles como el Dow Jones o el S&amp;P500&lt;/font&gt;
+- Cuando se trabajan con datos de series de tiempo, estos datos siguen un ordenamiento natural respecto del tiempo, &lt;font color = "blue"&gt;de modo que es muy posible que las observaciones sucesivas muestren intercorrelaciones, sobre todo si el intervalo entre observaciones sucesivas es muy corto, como un día, una semana o un mes: por ejemplo, los índices bursátiles como el Dow Jones o el S&amp;P500&lt;/font&gt;
 
 - En esta situación de alta interrelación temporal entre los datos es más probable que se &lt;font color = "blue"&gt;viole el supuesto de no autocorrelación&lt;/font&gt;
 
@@ -585,7 +585,7 @@ La prueba LM implica los siguientes pasos:
 2. Haga la regresión `\(\widehat{u}_t\)` sobre las `\(X_t\)` y `\(\widehat{u}_{t-1}\)`, `\(\widehat{u}_{t-2}\)`, ... `\(\widehat{u}_{t-p}\)`, y obtenga `\(R^2\)` de esta regresión auxiliar
 3. Si el tamaño de la muestra es grande, Breusch y Godfrey demostraron que
 
-`$$LM=(n-p)R^2 \sim \chi_{p}^2$$`
+`$$LM=(n)R^2 \sim \chi_{p}^2$$`
 Se rechaza `\(H_0\)` si `\(LM&gt;\chi_{tabla}^2\)` o si pvalue&lt; 1, 5, 10%
 
 ---
